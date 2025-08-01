@@ -4,9 +4,9 @@ Carpeta guardada con git.
 
 * Ir a la carpeta con la que deseamos trabajar con git
 * Estando en el directorio: git init
-![Descripción de la imagen](/img/Captura%20de%20pantalla%202025-08-01%20002622.png)
+![Imagen despues de git init](/img/1.png)
+* En la carpeta se nos crea carpeta oculta .git
 
-1. git init
 1. git status en directorio
 2. git add . para agregar todos los archivos modificados
 3. git commit -m "Comentario con modificaciones hechas"
