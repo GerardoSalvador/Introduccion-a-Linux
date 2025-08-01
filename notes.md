@@ -16,6 +16,7 @@ Carpeta guardada con git.
 * **git switch master** para volver a master
 * **git branch** para ver ramas
 * **git remote add origin https://github.com/GerardoSalvador/Introduccion-a-Linux.git** para sincronizar con un repositorio de github
+* **git push origin**
 
 ## Temas 1
 
