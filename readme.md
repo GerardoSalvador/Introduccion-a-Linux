@@ -1,3 +1,3 @@
 # Introducción a Linux
 
-Esta es la ruta del hacker
+Curso de Linux que impulsará mis habilidades de cara a ser Hacker Ético, siempre ético!
