@@ -1,2 +1,1 @@
 # Introducción a Linux
-
