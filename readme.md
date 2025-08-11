@@ -147,8 +147,47 @@ cat example # Leemos el descriptor
 exec 6>&5- # Creamos un descriptor de archivos 6 que es una copia del 5 pero cerramos el 5
 ```
 
+### Lectura e interpretación de permisos [1-2]
+
+[Permisos y derechos en Linux](https://blog.desdelinux.net/permisos-y-derechos-en-linux/?msclkid=22f8cb88ba8111ecb5d8a3db91f066ab)
+
+En GNU/Linux, los permisos o derechos que los usuarios pueden tener sobre determinados archivos contenidos en él se etablecen en tres niveles claramente diferenciados. Estos tres niveles son los siguientes:
+
+* Permisos de propietario.
+* Permisos del grupo.
+* Permisos del resto de usuarios(o también llamados "Los otros")
+
+Para tenenr claros estos conceptos, en los sistemas en red(como lo es el pingüino) siempre existe la figura del administrador, superusuario o root. Este administrador es el encargado de crear y dar de baja a usuarios, así como también, de establecer los privilegios que cada uno de ellos tendrá en el sistema. Estos privilegios se establecen tanto para el directorio HOME de cada usuario como para los directorios y archivos a los que el administrador decida que el usuario pueda acceder.
+
+#### Permisos del propietario
+
+El propietario es aquel usuario que genera o crea un archivo/carpeta dentro de su directorio de trabajo (HOME), o en algún otro directorio sobre el que tenga derechos. Cada usuario tiene la potestad de crear, por defecto, los archivos que quiera dentro su directorio de trabajo. En principio, él y solamente él será el que tenga acceso a la información contenida en los archivos y directorios que hay en su directorio HOME.
+
+#### Permisos del grupo
+
+Lo más normal es que cada usuario pertenezca a un grupo de trabajo. De esta forma, cuando se gestiona un grupo, se gestionan todos los usuarios que pertenecen a éste. Es decir, es más fácil integrar varios usuarios en un grupo al que se le conceden determinados privilegios en el sistema, que asignar los privilegios de forma independiente a cada usuario.
+
+#### Permisos del resto de usuarios
+
+Por último, también los privilegios de los archivos contenidos en cualquier directorio, pueden tenerlos otros usuarios que no pertenezcan al grupo de trabajo en el que está integrado el archivo en cuestión. Es decir, a los usuarios que no pertenecen al grupo de trabajo en el que está el archivo, pero que pertenecen a otros grupos de trabajo, se les denomina resto de usuarios del sistema.
+
+![Descripción de la imagen](/img/3.png)
+
+Rojo: Indica quien es el propietario.
+
+Amarillo: Indica a que grupo pertenece cada uno de los archivos y carpetas.
+
+[Permisos básicos en Linux](https://www.profesionalreview.com/2017/01/28/permisos-basicos-linux-ubuntu-chmod/)
+
+### Lectura e interpretación de permisos [2-2]
+
 ### Utilerias
 
-* cat -> batcat
-* ls -> lsd
-* powerlevel10k -> para personalizar la terminal
+* Instalar cat mejorado -> batcat
+  * Modificar archivo .bashrc
+    * alias bc='batcat'
+* Instalar cat mejorado -> lsd
+  * Modificar archivo .bashrc
+    * alias ls='lsd'
+* Personalizar la terminal -> PowerLevel10k
+* Recargar terminal -> source ~/.bashrc
