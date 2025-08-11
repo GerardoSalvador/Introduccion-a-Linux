@@ -124,7 +124,28 @@ wireshark &>/dev/null # Lanza la herramienta sin reportar nada por CLI
 
 ### Descriptores de archivos
 
-a
+Comandos vistos:
+
+```bash
+exec 3<> file # Al dar al enter nos crea un archivo file
+file file # Nos marca que esta vacio, file nos detecta el tipo de archivo en base a los magic numbers
+# Hemos creado un descriptor de archivos identificado con el número 3
+# Para comunicarme con el descriptor de archivos que tiene capacidad de lectura y escritura, < = lectura, > escritura
+whoami >&3 # El output lo almacena en el descriptor de archivos 3 que tiene capacidad de escritura
+cat file # Nos muestra la salida del comando whoami
+# Al ir agregando más comandos, los irá apilando debajo
+exec 3>&- # Para cerrar el descriptor de archivo
+ls >&3
+> zsh: 3: bad file descriptor
+
+exec 8>&5 # Lo que hay en el 5 crea una copia al 8
+exec 5>&- # Para cerrar el descriptor de archivos 5
+exec 5<> example # Creamos descriptor de archivos con capacidad de lectura y escritura
+whoami >&5 # Agregamos el output al descriptor 5
+cat example # Leemos el descriptor
+> root
+exec 6>&5- # Creamos un descriptor de archivos 6 que es una copia del 5 pero cerramos el 5
+```
 
 ### Utilerias
 
