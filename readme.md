@@ -171,11 +171,17 @@ Lo más normal es que cada usuario pertenezca a un grupo de trabajo. De esta for
 
 Por último, también los privilegios de los archivos contenidos en cualquier directorio, pueden tenerlos otros usuarios que no pertenezcan al grupo de trabajo en el que está integrado el archivo en cuestión. Es decir, a los usuarios que no pertenecen al grupo de trabajo en el que está el archivo, pero que pertenecen a otros grupos de trabajo, se les denomina resto de usuarios del sistema.
 
-![Descripción de la imagen](/img/3.png)
+![Propietario y grupos de los archivos](/img/3.png)
 
 Rojo: Indica quien es el propietario.
 
 Amarillo: Indica a que grupo pertenece cada uno de los archivos y carpetas.
+
+Cada archivo en GNU/Linux queda identificado por 10 caracteres mismos a los que se les denomina **máscara**. De estos 10 caracteres, el primero (de izquierda a derecha) hace referencia al tipo de archivo. Los siguientes 9, de izquierda a derecha y en bloques de 3, hacen referencia a los permisos que se le conceden, respectivamente, al propietario, al grupo y al resto u otros.
+
+El siguiente carácter de los archivos puede ser el siguiente:
+
+![Primer carácter de la máscara de permisos](/img/4.png)
 
 [Permisos básicos en Linux](https://www.profesionalreview.com/2017/01/28/permisos-basicos-linux-ubuntu-chmod/)
 
