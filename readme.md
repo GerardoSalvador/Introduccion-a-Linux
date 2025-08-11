@@ -183,6 +183,72 @@ El siguiente carácter de los archivos puede ser el siguiente:
 
 ![Primer carácter de la máscara de permisos](/img/4.png)
 
+Los siguientes nueve caracteres son los permisos que se les concede a los usuarios del sistema. Cada tres caracteres, se referencian los permisos de propietario, grupo y resto de usuarios.
+
+Los caracteres que definen estos permisos son los siguientes:
+
+![permisos de usuario](/img/5.png)
+
+#### Permisos para archivos
+
+* Lectura: Permite, fundamentalmente, visualizar el contenido del archivo.
+* Escritura: Permite modificar el contenido del archivo.
+* Ejecución: Permite ejecutar el archivo como si de un programa ejecutable se tratese.
+
+#### Permisos para directorios
+
+* Lectura: Permite saber qué archivos y directorios contiene el directorio que tiene este permiso
+* Escritura: Permite crear archivos en el directorio, bien sean archivos ordinarios o nuevos directorios. Se pueden borrar directorios, copiar archivos en el directorio, mover, cambiar el nombre, etc.
+* Ejecución: Permite situarse sobre el directorio para poder examinar su contenido, copiar archivos de o hacia él. Si además se dispone de los permisos de escritura y lectura, se podrán realizar todas las operaciones posibles sobre archivos y directorios.
+
+Nota: Si no se dispone del permiso de ejecución, podemos acceder a dicho directorio (aunque utilicemos el comando "cd"), ya que esta acción será denegada. También permite delimitar el uso de un directorio como parte de una ruta.
+
+Si el permiso de ejecución de un directorio está desactivado, se podrá ver su contenido (si se cuenta con permiso de lectura), pero no se podrá acceder a ninguno de los objetos contenidos en él, pues para ello este directorio es parte del camino necesario para resolver la ubicación de sus objetos.
+
+#### Asignación de permisos
+
+El comando chmod (change mod) permite modificar la máscara para que se puedan realizar más o menos operaciones sobre archivos o directorios, dicho de otra forma, con chmod puedes quitar o eliminar derechos a cada tipo de usuarios, Si no se especifica el tipo de usuario al que queremos quitar, poner o asignar privilegios, lo que sucederá al realizar la operación es afectar a todos los usuarios simultáneamente.
+
+Lo básico que hay que recordar es que debemos dar o quitar permisos en estos niveles:
+
+![niveles de permisos](/img/6.png)
+
+Tipos de permiso:
+
+![niveles de permisos](/img/7.png)
+
+```bash
+# Dar permiso de ejecución al dueño
+chmod u+x script.sh
+# Quitar permiso de ejecución a todos los usuarios
+chmod -x script.sh
+# Dar permiso de lectura y escritura a los demás usuarios
+chmod o+r+w script.sh
+# Dejar solo permiso de lectura al grupo al que pertenece el archivo
+chmod g+r-w-x script.sh
+```
+
+#### Permisos en formato numérico octal
+
+La combinación de bits encendidos o apagados en cada grupo da ocho posibles combinaciones de valores, es decir la suma de los bits encendidos:
+
+* x = 1
+* w = 2
+* r = 4
+
+![Formas de dar permiso de manera octal](/img/8.png)
+
+Cuando se combinan los permisos del usuario, grupo y otros, se obtienen un número de tres cifras que conforman los permisos del archivo o del directorio.
+
+![Ejemplos de uso de permisos octales](/img/9.png)
+
+#### Permisos especiales
+
+* Permiso SUID (Set User ID)
+  * El bit setuid es asignable a ficheros ejecutables, y permite que cuando un usuario ejecute dicho fichero, el proceso adquiera los permisos del propietario del fichero ejecutado. El ejemplo más claro de fichero ejecutable y con el bit setuid es:
+* Permiso SGID (Set Group ID)
+* Permiso de persistencia (Sticky Bit)
+
 [Permisos básicos en Linux](https://www.profesionalreview.com/2017/01/28/permisos-basicos-linux-ubuntu-chmod/)
 
 ### Lectura e interpretación de permisos [2-2]
