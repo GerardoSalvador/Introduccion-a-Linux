@@ -245,9 +245,14 @@ Cuando se combinan los permisos del usuario, grupo y otros, se obtienen un núme
 #### Permisos especiales
 
 * Permiso SUID (Set User ID)
-  * El bit setuid es asignable a ficheros ejecutables, y permite que cuando un usuario ejecute dicho fichero, el proceso adquiera los permisos del propietario del fichero ejecutado. El ejemplo más claro de fichero ejecutable y con el bit setuid es:
+  * El bit setuid es asignable a ficheros ejecutables, y permite que cuando un usuario ejecute dicho fichero, el proceso adquiera los permisos del propietario del fichero ejecutado. Para asignar este bit a un fichero será:
+    * chmod u+s /bin/su
 * Permiso SGID (Set Group ID)
+  * El bit SETID permite adquirir los privilegios del grupo asignado al fichero, también es asignable a directorios. Esto será muy útil cuando varios usuarios de un mismo grupo necesiten trabajar con recursos dentro del mismo directorio. Para asignar este bit hacemos lo siguiente:
+    * chmod g+s /carpet_compartida
 * Permiso de persistencia (Sticky Bit)
+  * Este bit suele asignarse en directorios a los que todos los usuarios tienen acceso, y permite evitar que un usuario pueda borrar ficheros/directorios de otro usuario dentro de ese directorio, ya que todos tienen permiso de escritura. Para asignar este bit hacemos lo siguiente:
+    * chmod o+t /tmp
 
 [Permisos básicos en Linux](https://www.profesionalreview.com/2017/01/28/permisos-basicos-linux-ubuntu-chmod/)
 
