@@ -258,6 +258,60 @@ Cuando se combinan los permisos del usuario, grupo y otros, se obtienen un núme
 
 ### Lectura e interpretación de permisos [2-2]
 
+[Cambiar permisos con comandos](https://www.hostinger.es/tutoriales/cambiar-permisos-y-propietarios-linux-linea-de-comandos/)
+
+Para cambiar permisos de archivos y carpetas usamos el comando chmod
+
+Para cambiar los propietarios de archivos y carpetas usamos el comando chown
+
+```bash
+cat /etc/shadow # Tiene las contraseñas encriptadas
+cat /etc/login.defs | grep "ENCRYPT_METHOD"
+```
+
+### Asignación de permisos [1-2]
+
+[Asignación de permisos](https://www.ionos.es/digitalguide/servidores/know-how/asignacion-de-permisos-de-acceso-con-chmod/)
+
+[Propietarios y permisos](https://atareao.es/tutorial/terminal/propietarios-y-permisos/)
+
+```bash
+chgrp grupo directorio # le pasas el grupo y el directorio para que se cambie de grupo
+```
+
+### Asignación de permisos [2-2]
+
+[Gestión de usuarios, grupos y permisos en Linux](https://computernewage.com/2016/05/22/gestionar-usuarios-y-permisos-en-linux/)
+
+[Gestión de usuarios y grupo en linux](https://atareao.es/como/gestion-de-usuarios-y-grupos-en-linux/)
+
+```bash
+cd /home
+sudo su
+ls
+> ethicalmachine
+mkdir gerardo # Creamos el directorio que asignaremos a nuestro usuario
+useradd gerardo -s /bin/bash -d /home/gerardo # Creamos el usuario, le asignamos una shell y el directorio que será su home
+
+cat /etc/passwd | grep gerardo
+> gerardo:x:1001:1002::/home/gerardo:/bin/bash
+
+cat /etc/group | grep gerardo
+> gerardo:x:1002
+
+passwd gerardo
+> Nueva contraseña: savitar
+> Repetir contraseña: savitar
+
+chgrp gerardo gerardo # valor1=grupo valor2=directorio, asigno al grupo gerardo el directorio gerardo
+
+chown gerardo gerardo # valor1=propietario valor2=directorio, asigno a gerardo el directorio gerardo
+
+chown propietario:grupo directorio # Para cambiar permisos en una linea
+
+chown root:savitar /test # El propietario es root, el grupo es savitar del directorio test 03:09
+```
+
 ### Utilerias
 
 * Instalar cat mejorado -> batcat
