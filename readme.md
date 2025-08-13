@@ -309,8 +309,28 @@ chown gerardo gerardo # valor1=propietario valor2=directorio, asigno a gerardo e
 
 chown propietario:grupo directorio # Para cambiar permisos en una linea
 
-chown root:savitar /test # El propietario es root, el grupo es savitar del directorio test 03:09
+chown root:savitar /test # El propietario es root, el grupo es savitar del directorio test
+
+groupadd Alumnos # Creamos grupo alumno
+cat /etc/group
+> Alumnos:x:1004:
+
+usermod -a -G Alumnos gerardo # Con esta instrucción añadimos al usuario gerardo al grupo ALumnos
+cat /etc/group
+> Alumnos:x:1004:gerardo # Se añadió a gerardo al grupo alumnos
+id # Nos muestra por consola los grupos a los que estamos añadidos
+
+chmod o-rx nombre_directorio/ # Otros, no pueden leer ni atraveser el directorio
+
+chgrp Alumnos nombre_directorio/ # Asigno al grupo Alumnos al directorio
+
+chmod g+w nombre_directorio/ # Permito que los pertenecientes al grupo Alumnos puedan escribir en el directorio
+
 ```
+
+### Notación octal de permisos
+
+[Permisos del sistema de archivos GNU/Linux](https://blog.alcancelibre.org/staticpages/index.php/permisos-sistema-de-archivos)
 
 ### Utilerias
 
