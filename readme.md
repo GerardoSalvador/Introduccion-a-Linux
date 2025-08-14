@@ -118,6 +118,8 @@ Cuando es útil no mostrar nada por pantalla, muestra ejemplo de wireshark repor
 wireshark # Lanza la herramienta con la interfaz gráfica en primer plano y la CLI en segundo plano mandando stdout
 
 wireshark &>/dev/null # Lanza la herramienta sin reportar nada por CLI
+
+remmina &>/dev/null & disown # Lanza remmina sin reportar nada por CLI en segundo plano sin que dependa de la terminal, crea un PID
 ```
 
 ![Imagen de apoyo, misma que el enlace de arriba](/img/2.png)
@@ -326,11 +328,39 @@ chgrp Alumnos nombre_directorio/ # Asigno al grupo Alumnos al directorio
 
 chmod g+w nombre_directorio/ # Permito que los pertenecientes al grupo Alumnos puedan escribir en el directorio
 
+sudo gpasswd -d username groupname # Eliminamos al usuario username del grupo groupname
+
+sudo usermod -G groupname username # Eliminamos un usuario de un grupo
+
+# userdel, es un programa del sistema. Modifica los archivos de cuentas de usuario del sistema, eliminando todas las entradas que hacen referencia al nombre de cuenta que vamos a eliminar. La cuenta de usuario deberá existir para poder eliminarla.
+
+userdel -f, --force # Esta opción fuerza la eliminación de la cuenta de usuario incluso si el usuario todavia esta conectado. También obliga a userdel a eliminar el directorio de inicio del usuario y la cola de correo, incluso si otro usuario usa el mismo directorio de inicio o si la cola de correo no es propiedad del usuario especificado
+
+sudo userdel -r gerardo # Eliminamos al usuario gerardo del sistema, borrará el directorio de inicio del usuario /home/gerardo y la cola de correo del usuario. Los archivos ubicados en otros sistemas de archivos deberán buscarse y eliminarse manualmente.
+
 ```
 
 ### Notación octal de permisos
 
+La forma más recomendable de asignar permisos.
+
+El consejo de savitar es recordar: 4 2 1, lo compara contra la máscara y hace la traducción
+
+```bash
+mkdir testing
+chmod 755 testing
+la
+> drwxr-xr-x    root    root    testing
+```
+
 [Permisos del sistema de archivos GNU/Linux](https://blog.alcancelibre.org/staticpages/index.php/permisos-sistema-de-archivos)
+
+### Permisos especiales - Sticky Bit
+
+[¿Qué es el Sticky Bit y cómo configurarlo?](https://keepcoding.io/blog/que-es-el-sticky-bit-y-como-configurarlo/)
+[El bit Sticky | Tutorial de GNU/Linux](https://www.fpgenred.es/GNU-Linux/el_bit_sticky.html)
+
+A
 
 ### Utilerias
 
@@ -342,3 +372,21 @@ chmod g+w nombre_directorio/ # Permito que los pertenecientes al grupo Alumnos p
     * alias ls='lsd'
 * Personalizar la terminal -> PowerLevel10k
 * Recargar terminal -> source ~/.bashrc
+
+### Troubleshooting
+
+---
+
+Mistake: **Command not found**
+
+```bash
+> bash: usermod: command not found
+printenv || env # Nos muestra configuraciones de las variables de entorno gobales en el sistema
+
+nano .bashrc # Añadimos hasta el final del archivo la línea
+export PATH=$PATH:/srv/scripts # Con esta instrucción estamos agregando ese directorio al final de todo el path
+
+# Mi solucion fue copiar el path de super usuario y pegarlo de la siguiente manera
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+```
