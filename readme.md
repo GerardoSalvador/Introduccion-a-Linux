@@ -361,7 +361,66 @@ la
 
 [El bit Sticky | Tutorial de GNU/Linux](https://www.fpgenred.es/GNU-Linux/el_bit_sticky.html)
 
-A
+El Sticky Bit en GNU/Linux es un **permiso especial** que se aplica sobre directorios (no sobre archivos normales en la mayoría de casos actuales) para controlar qué usuarios pueden eliminar o renombrar archivos dentro de ese directorio.
+
+#### Origen historico
+
+* En sistemas UNIX antiguos, el sticky bit en **archivos ejecutables** indicaba que, una vez ejecutado, el binario debía quedarse "pegado" en memoria (o en el swap) para acelerar posteriores ejecuciones.
+* Hoy, ese uso **ya no se emplea** en sistemas modernos: su función principal quedó limitada a **directorios**.
+
+#### Función actual en directorios
+
+Cuando un directorio tiene el sticky bit activado:
+
+* **Todos los usuarios pueden crear archivos** (si el permiso w en el directorio lo permite).
+* **Solo el propietario del archivo, el propietario del directorio o el superusuario (root)** pueden eliminarlo o renombrarlo.
+* **Otros usuarios no pueden borrar o renombrar archivos que no les pertenecen**, aunque tengan permiso de escritura sobre el directorio.
+
+Sin Sticky Bit, si un directorioes escribible por todos (chmod 777), cualquiera podría borrar o modificar archivos de otros.
+
+#### Ejemplo práctico
+
+Supongamos un directorio /compartido donde todos pueden escribir
+
+```bash
+sudo mkdir /compartido
+sudo chmod 777 /compartido
+```
+
+Ahora:
+
+* Usuario juan crea un archivo nota.txt en /compartido.
+* Usuario maria podría **borrarlo** sin problemas, porque el directorio es escribible por todos.
+
+Activando el sticky bit:
+
+```bash
+sudo chmod 1777 /compartido && chmod +t /compartido
+```
+
+Esto cambia los permisos visible con ls -ld:
+
+```bash
+drwxrwxrwt 2 root root 4096 ago 14 /compartido
+```
+
+Fijate en la t al final de drwxrwxrw**t** eso indica que el sticky bit esta activo.
+
+Ahora:
+
+* juan puede borrar **sus** archivos.
+* maria no podrá borrar archivos de juan, aunque el directorio sea escribible por todos.
+
+También puedes usar **modo numérico:**
+
+* chmod 1777 directorio -> permisos 777 + sticky bit.
+* El primer dígito (1) es el que activa el sticky bit (igual que 2 sería setgid y 4 setuid).
+
+Resumen rápido:
+
+* Qué es: Permiso especial que evita que otros borren/renombren tus archivos en directorios compartidos.
+* Dónde usarlo: En carpetas con permisos de escritura para varios usuarios (ej: /tmp, carpetas de intercambio).
+* Cómo verlo: ls -ld muestra una t al final de los permisos.
 
 ### Utilerias
 
