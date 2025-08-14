@@ -365,14 +365,14 @@ A
 
 ### Utilerias
 
-* Instalar cat mejorado -> batcat
-  * Modificar archivo .bashrc
-    * alias bc='batcat'
-* Instalar cat mejorado -> lsd
-  * Modificar archivo .bashrc
-    * alias ls='lsd'
-* Personalizar la terminal -> PowerLevel10k
-* Recargar terminal -> source ~/.bashrc
+[x] Instalar cat mejorado -> batcat
+  [x] Modificar archivo .bashrc
+    [x] alias bc='batcat'
+[x] Instalar cat mejorado -> lsd
+  [x] Modificar archivo .bashrc
+    [x] alias ls='lsd'
+[x] Personalizar la terminal -> PowerLevel10k
+[x] Recargar terminal -> source ~/.bashrc
 
 ### Troubleshooting
 
