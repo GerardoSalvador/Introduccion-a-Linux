@@ -358,6 +358,7 @@ la
 ### Permisos especiales - Sticky Bit
 
 [¿Qué es el Sticky Bit y cómo configurarlo?](https://keepcoding.io/blog/que-es-el-sticky-bit-y-como-configurarlo/)
+
 [El bit Sticky | Tutorial de GNU/Linux](https://www.fpgenred.es/GNU-Linux/el_bit_sticky.html)
 
 A
