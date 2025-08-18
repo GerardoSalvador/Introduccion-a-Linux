@@ -422,6 +422,180 @@ Resumen rápido:
 * Dónde usarlo: En carpetas con permisos de escritura para varios usuarios (ej: /tmp, carpetas de intercambio).
 * Cómo verlo: ls -ld muestra una t al final de los permisos.
 
+### Control de atributos de ficheros en Linux - Chattr y Lsattr
+
+[Control de atributos de ficheros Linux](https://rm-rf.es/chattr-y-lsattr-visualizar-y-modificar-atributos-en-sistemas-de-ficheros-linux/#:~:text=El%20primer%20comando%2C%20lsattr%20permite,chmod%2C%20chown%2Csetfacl%E2%80%A6)
+
+[Comandos Chattr y Lsattr en Linux](https://programmerclick.com/article/5604675172/)
+
+Esto es distinto de los permisos (rwx): Son banderas a nivelde inode que el kernel respeta y que pueden cambiar el comportamiento de archivos y directorios, sobre todo en ext2/3/4 (algunas tambien aplican en btrfs/xfs).
+
+#### ¿Para qué sirven chattr y lsattr?
+
+* chattr: cambia (añade, quita o fija) atributos especiales de archivos y directorios.
+* lsattr: lista los atributos actuales para que puedas ver qué hay aplicado.
+
+Muchos privilegios requieren de root, para establecerse (ej. +i, +a). El soporte varía por sistema de archivos, en ext4 funciona la mayoría "clásicos".
+
+#### Atributos más útiles (y seguros de usar)
+
+Entre corchetes, ejemplos típicos de uso:
+
+* i - immutable (inmutable): El archivo **no puede modificarse, borrarse, renombrarse, ni truncarse**; ni root puede escribir salvo que quite el atributo primero. [Proteger archivos críticos de config]
+
+```bash
+sudo chattr +i /etc/resolv.conf
+sudo chattr -i /etc/resolv.conf
+```
+
+* a - append-only (solo añadir): El archivo **solo admite escritura al final**; no se puede ni sobreescribir. Ideal para logs. [Evitar manipulación de logs]
+
+```bash
+sudo chattr +a /var/log/mi_app.log
+sudo chattr -a /var/log/mi_app.log
+```
+
+* A - no atime: No actualiza la marca de acceso (atime) en lecturas. Reduce escrituras. (Ojo: Muchos sistemas usan relatime por defecto y esto puede no aportar mucho)
+
+```bash
+sudo chattr +A archivo
+sudo chattr -A archivo
+```
+
+* d - nodump: Excluye el archivo/directorio de herramientas tipo dump. [Evitar que ciertos datos entren en respaldos hechos con dump]
+
+```bash
+sudo chattr +d carpeta_temporal/
+```
+
+* S - synchronous updates (Sincrónico): Cada escritura se sincroniza inmediatemente a disco (solo para este archivo). [Datos críticos pero pequeños]
+
+```bash
+sudo chattr +S fichero_pequeño_critico
+```
+
+* D - dirsync (Sincrónico para directorios): Cambios en la escritura del directorio (crear/borrar/renombrar entradas) se hacen sincrónicamente. [Directorios con metadatos muy sensibles a pérdida]
+
+```bash
+sudo chattr +D /srv/critico/
+```
+
+* j - data journaling (ext3/4): Fuerza journaling de datos (no solo metadatos) para ese archivo en ext3/4. Aumenta seguridad pero tambien I/O.
+
+```bash
+sudo chattr +j archivo_en_ext4
+```
+
+* C - no CoW (copy on write): Desactiva CoW en fs que lo soportan (útil en btrfs para VM/discos/DB que sufren fragmentación con CoW). No tiene efecto en ext4 (ext no usa CoW)
+
+```bash
+sudo chattr +C /btrfs/imagenes/vm.qcow2
+```
+
+* T - top of directory hierarchy: Pista para el asignador de bloques (ayuda a rendimiento en ciertas jerarquías grandes). Útil en raíces de árboles de proyectos/datos.
+
+```bash
+sudo chattr +T /datos/proyectos
+```
+
+#### Atributos informativos (no cambiarlos)
+
+Estos suelen aparecer en lsattr, pero no se setean manualmente:
+
+* e: el archivo usa extents(ext4)
+* I: directorio indexado (htree) en ext4.
+* h: archivo "grande" (huge)
+
+Atributos como c, s, u, t, X, Z están obsoletos, eran experimentales o dependen de otros FS/Parches. Evitarlos salvo que sepa que mi FS lo soporta.
+
+#### Chuleta rápida
+
+```bash
+sudo chattr +i archivo     # inmutable
+sudo chattr -i archivo
+
+sudo chattr +a archivo     # solo append
+sudo chattr -a archivo
+
+sudo chattr +A archivo     # no atime
+sudo chattr -A archivo
+
+sudo chattr +S archivo     # escritura sincrónica
+sudo chattr +D directorio  # dirsync
+
+sudo chattr +j archivo     # data journaling (ext3/4)
+sudo chattr +C archivo     # no CoW (btrfs)
+sudo chattr +T directorio  # top of dir hierarchy
+```
+
+### Permisos especiales - SUID y SGID
+
+[Permisos SGID, SUID, Sticky Bit](https://deephacking.tech/permisos-sgid-suid-y-sticky-bit-linux/#:~:text=Permiso%20SGID,-El%20permiso%20SGID&text=Si%20se%20establece%20en%20un,perteneciente%2C%20el%20grupo%20del%20directorio.)
+
+[Permisos especiales en Linux](https://www.ochobitshacenunbyte.com/2019/06/17/permisos-especiales-en-linux-sticky-bit-suid-y-sgid/)
+
+[Los bits SUID, SGID y Sticky](https://www.ibiblio.org/pub/linux/docs/LuCaS/Manuales-LuCAS/SEGUNIX/unixsec-2.1-html/node56.html)
+
+```bash
+which python3.11
+> /usr/bin/python3.11
+
+which python3.11 | xargs ls -l # A la ruta que nos arroje el primero comando le hacemos un ls -l
+
+> -rwxr-xr-x 1 root root 5479736 feb 28 2021 /usr/bin/python3.11
+
+chmod u+s /usr/bin/python3.11
+
+which python3.11 | xargs ls -l # A la ruta que nos arroje el primero comando le hacemos un ls -l
+
+> -rwsr-xr-x 1 root root 5479736 feb 28 2021 /usr/bin/python3.11 # Se añade el permiso setuid s al usuario
+
+# De esta manera buscamos los binarios con suid, encontramos una vulnerabilidad en python
+find / -type f -perm -4000 2>/dev/null # Buscar archivos con privilegios suid y mandamos el error al dev null
+find / -type f -perm -2000 2>/dev/null # Buscar archivos con privilegios sgid y mandamos el error al dev null
+
+# Terminamos esta actividad abriendo python, import os, os.setuid(0), os.system("whoami")=root, os.system("bash")=nos da una bash como root
+
+chmod u-s /usr/bin/python3.11
+
+```
+
+#### Chuleta de permisos Sticky Bit, SGID, SUID
+
+* 1 = Sticky bit
+* 2 = SGID
+* 4 = SUID
+
+Ejemplos:
+
+```bash
+chmod 4755 archivo   # SUID + rwxr-xr-x
+chmod 2755 archivo   # SGID + rwxr-xr-x
+chmod 6755 archivo   # SUID y SGID
+
+find / -perm -4000 2>/dev/null   # busca todos los archivos con SUID
+find / -perm -2000 2>/dev/null   # busca todos los archivos con SGID
+```
+
+### Privilegios especiales - Capabilities
+
+[¿Qué son las Linux Capabilities](https://gtfobins.github.io/#+capabilities)
+
+```bash
+# Listamos las capabilities y los errores los dirigimos al dev null
+getcap -r / 2>/dev/null
+
+# Como prueba de concepto, Savitar establecio la capabilitie a
+setcap cap_setuid+ep /usr/bin/python3.11
+getcap /usr/bin/python3.11
+> /usr/bin/python3.11 cap_setuid=ep
+
+# Como prueba de concepto, Savitar quitó la capabilitie a
+setcap -r /usr/bin/python3.11
+getcap /usr/bin/python3.11
+> /usr/bin/python3.11
+```
+
 ### Utilerias
 
 * Instalar cat mejorado -> batcat
