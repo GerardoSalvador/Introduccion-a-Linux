@@ -1030,6 +1030,22 @@ echo -e "\n[+] Esta es tu dirección IP -> $(ip a | grep "inet " | tail -n 1 | a
 echo -e "\n${yellowColour}[+]${endColour}${blueColour} Esta es tu dirección IP ->${endColour}${redColour}$(ip a | grep "inet " | tail -n 1 | awk '{print $2}' | awk '{print $1}' FS="/")\n${endColour}" # Los comandos van dentro de $()
 ```
 
+### Uso y configuración de la Kitty
+
+[Overview - Kitty](https://sw.kovidgoyal.net/kitty/overview/)
+
+* Para configurar la kitty, tuve que buscar el archivo de configuracion con el siguiente comando
+
+```bash
+find / -type f -iname "kitty.conf" 2>/dev/null
+cat /etc/xdg/kitty/kitty.conf
+> update_check_interval 0
+
+sudo nano /etc/xdg/kitty/kitty.conf
+font_size 15
+background_opacity 0.90
+```
+
 ---
 
 ### Utilerias
@@ -1042,6 +1058,7 @@ echo -e "\n${yellowColour}[+]${endColour}${blueColour} Esta es tu dirección IP 
     * alias ls='lsd'
 * Personalizar la terminal -> PowerLevel10k
 * Recargar terminal -> source ~/.bashrc
+* Instalar y aprender a usar la kitty
 
 ---
 
