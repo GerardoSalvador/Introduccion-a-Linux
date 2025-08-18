@@ -596,6 +596,442 @@ getcap /usr/bin/python3.11
 > /usr/bin/python3.11
 ```
 
+### Estructura de directorios del sistema
+
+#### Estructura general de directorios en Linux (FHS - FileSystem Herarchy Standard)
+
+Linux sigue un estándar llamado FHS.
+
+```java
+/
+├── bin    → Binarios esenciales del sistema (ls, cp, mv, cat, etc.)
+├── boot   → Archivos de arranque (kernel vmlinuz, initrd, grub)
+├── dev    → Dispositivos (hdd, usb, tty, null, etc.) como archivos especiales
+├── etc    → Archivos de configuración del sistema y servicios
+├── home   → Directorios personales de los usuarios
+├── lib    → Bibliotecas esenciales compartidas para binarios de /bin y /sbin
+├── media  → Puntos de montaje automáticos para CDs, USBs, etc.
+├── mnt    → Punto de montaje manual para admins (ej. montar discos temporales)
+├── opt    → Paquetes opcionales / software de terceros
+├── proc   → Sistema de archivos virtual con info del kernel y procesos
+├── root   → Directorio personal del superusuario (root)
+├── run    → Info de ejecución en tiempo real (PID files, sockets, etc.)
+├── sbin   → Binarios esenciales de administración (mount, shutdown, ifconfig…)
+├── srv    → Datos de servicios (web, ftp, repositorios locales)
+├── sys    → Información del kernel (dispositivos, módulos, controladores)
+├── tmp    → Archivos temporales (se borran en cada reinicio)
+├── usr    → Programas y utilidades para usuarios
+│   ├── bin   → Binarios no esenciales (cp, nano, firefox, etc.)
+│   ├── lib   → Librerías para los binarios de /usr/bin y /usr/sbin
+│   ├── sbin  → Binarios de administración no esenciales
+│   └── share → Archivos compartidos (documentación, íconos, locales)
+└── var    → Datos variables: logs, colas de correo, caché, bases de datos
+```
+
+#### Particularidades de Parrot OS Security
+
+Además de la estructura básica, Parrot añade directorios específicos para seguridad y pentesting.
+
+* /usr/share/ -> Aquí encontrarás la mayoría de herramientas de hacking y pentesting instaladas por defecto. Ejemplos:
+  * /usr/share/metasploit-framework/
+  * /usr/share/wordlists/ (diccionarios como rockyou.txt)
+  * /usr/share/nmap/
+  * /usr/share/exploitdb/
+* /etc/ -> Configuraciones de servicios de seguridad que Parrot trae integrados:
+  * /etc/tor/ -> Configuración de TOR.
+  * /etc/proxychains.conf -> Proxychains para redirigir tráfico.
+  * /etc/network/ -> Configuración de red y VPNs.
+  * /etc/ssh/ -> Config de servidor/cliente SSH.
+* /var/log/ -> Logs de servicios de seguridad:
+  * /var/log/auth.log -> Autenticaciones
+  * /var/log/tor/ -> Logs de TOR.
+  * /var/log/apache2/ -> Logs de Apache (Si lo tienes activo para pentesting web).
+* /home/ -> Tus directorios personales; aquí normalmente guardarás proyectos, scripts y reportes de auditorías.
+
+#### Directorio Raíz
+
+El directorio raíz, simbolizado por el símbolo (/), es el directorio principal a partir del cual se ramifican todo el resto de directorios.
+
+#### Directorio /bin
+
+El directorio /bin es un directorio estático y compartible en el que se almacenan archivos binarios/ejecutables necesarios para el funcionamiento del sistema. Estos archivos binarios los pueden usar la totalidad de usuarios del sistema operativo.
+
+#### Directorio /boot
+
+Es un directorio estático no compartible que contiene la totalidad de archivos necesarios para el arranque del ordenador excepto los archivos de configuración. Algunos de los archivos indispensables para el arranque del sistema que acostumbra a almacenar el directorio /boot son el kernel y el gestor de arranque Grub.
+
+#### Directorio /dev
+
+El sistema operativo Gnu-Linux trata los dispositivos de hardware como si fueran un archivo. Estos archivos que representan nuestros dispositivos de hardware se hallan almacenados en el directorio /dev.
+
+Algunos de los archivos básicos que podemos encontrar en este directorio son:
+
+* cdrom que representa nuestro dispositivo de CDROM.
+* sda que representa nuestro disco duro sata.
+* audio que representa nuestra tarjeta de sonido.
+* psaux que representa el puerto PS/2.
+* lpx que representa nuestra impresora.
+* fd0 que representa nuestra disquetera.
+
+#### Directorio /etc
+
+El directorio /etc es un directorio estático que contiene los archivos de configuración del sistema operativo. Este directorio también contiene archivos de configuración para controlar el funcionamiento de diversos programas.
+
+Algunos de los archivos de configuración de la carpeta /etc pueden ser sustituidos o complementados por archivos de configuración ubicados en nuestra carpeta personal /home.
+
+#### Directorio /home
+
+El directorio /home se trata de un directorio variable y compartible. Este directorio está destinado a alojar la totalidad de archivos personales de los distintos usuarios del sistema operativo a excepción del usuario root. Algunos de los archivos personales almacenados en la carpeta /home son fotografías, documentos de ofimática, vídeos, etc.
+
+#### Directorio /lib
+
+El directorio /lib es un directorio estático y que puede ser compartible. Este directorio contiene bibliotecas compartidas que son necesarias para arrancar los ejecutables que se almacenan en los directorios /bin y /sbin.
+
+#### Directorio /mnt
+
+El directorio /mnt tiene la finalidad de albergar los puntos de montaje de los distintos dispositivos de almacenamiento como por ejemplo discos duros externos, particiones de unidades externas, etc.
+
+#### Directorio /media
+
+La función del directorio /media es similar a la del directorio /mnt. Este directorio contiene los puntos de montaje de los medios extraíbles de almacenamiento como por ejemplo memorias USB, lectores de CD-ROM, unidades de disquete, etc.
+
+#### Directorio /opt
+
+El contenido almacenado en el directorio /opt es estático y compartible. La función de este directorio es almacenar programas que no vienen con nuestro sistema operativo como por ejemplo Spotify, Google-earth, Google Chrome, Teamviewer, etc.
+
+#### Directorio /proc
+
+El directorio /proc se trata de un sistema de archivos virtual. Este sistema de archivos virtual nos proporciona información acerca de los distintos procesos y aplicaciones que se están ejecutando en nuestro sistema operativo.
+
+#### Directorio /root
+
+El directorio /root se trata de un directorio variable no compartible. El directorio /root es el directorio /home del administrador del sistema (usuario root).
+
+#### Directorio /sbin
+
+El directorio /sbin se trata de un directorio estático y compartible. Su función es similar al directorio /bin, pero a diferencia del directorio /bin, el directorio /sbin almacena archivos binarios/ejecutables que solo puede ejecutar el usuario root o administrador del sistema.
+
+#### Directorio /srv
+
+El directorio /srv se usa para almacenar directorios y datos que usan ciertos servidores que podamos tener instalados en nuestro ordenador.
+
+#### Directorio /tmp
+
+El directorio /tmp es donde se crean y se almacenan los archivos temporales y las variables para que los programas puedan funcionar de forma adecuada.
+
+#### Directorio /usr
+
+El directorio /usr es un directorio compartido y estático. Este directorio es el que contiene la gran mayoría de programas instalados en nuestro sistema operativo.
+
+Todo el contenido almacenado en la carpeta /usr es accesible para todos los usuarios y su contenido es solo de lectura.
+
+#### Directorio /var
+
+El directorio /var contiene archivos de datos variables y temporales como por ejemplo los registros del sistema (logs), los registros de programas que tenemos instalados en el sistema operativo, archivos spool, etc.
+
+La principal función del directorio /var es la detectar problemas y solucionarlos. Se recomienda ubicar el directorio /var en una partición propia, y en caso de no ser posible es recomendable ubicarlo fuera de la partición raíz.
+
+#### Directorio /sys
+
+Directorio que contiene información similar a la del directorio /proc. Dentro de esta carpeta podemos encontrar información estructurada y jerárquica acerca del kernel de nuestro equipo, de nuestras particiones y sistemas de archivo, de nuestros drivers, etc.
+
+#### Directorio /lost-found
+
+Directorio que se crea en las particiones de disco con un sistema de archivos ext después ejecutar herramientas para restaurar y recuperar el sistema operativo como por ejemplo fsch.
+
+Si nuestro sistema no ha presentado problemas este directorio estará completamente vacío. En el caso que hayan habido problemas este directorio contendrá ficheros y directorios que han sido recuperados tras la caída del sistema operativo.
+
+### Uso de bashrc y zshrc
+
+[¿Qué es bashrc en Linux?](https://www.compuhoy.com/que-es-bashrc-en-linux/)
+
+[¿Por qué deberías usar ZSH?](https://respontodo.com/que-es-zsh-y-por-que-deberia-usarlo-en-lugar-de-bash/)
+
+En mi caso yo opero con una ZSH, por tanto mi archivo de configuración corresponde al ‘~/.zshrc‘. Recuerda que en caso de usar una BASH tu archivo de configuración debería estar situado en ‘~/.bashrc‘
+
+### Actualización y Upgradeo del sistema Parrot OS Security
+
+```bash
+apt update # Para actualizar paquetes
+
+apt list --upgradable # Para listar paquetes upgradear
+
+parrot-upgrade # Para actualizar el sistema operativo
+```
+
+### Uso y manejo con Tmux
+
+Para tener todos los atajos y comando de Tmux centralizados, hemos creado la siguiente guía la cual esperamos que le puedas sacar provecho:
+
+[Guía de atajaos y comandos de Tmux](https://hack4u.io/wp-content/uploads/2022/05/Tmux-Cheat-Sheet.pdf)
+
+[Página para personalizar tmux con ohmytmux](https://github.com/gpakosz/.tmux)
+
+```bash
+# Iniciar una nueva sesión
+tmux
+tmux new
+tmux new-session
+:new
+# Empezar una nueva sesión con un nombre
+tmux new -s mysession
+:new -s mysession
+# Matar/Borrar la sesión mysession
+tmux kill-sesion -t mysession
+# Matar/borrar todas las sesiones excepto la actual
+tmux kill-session -a
+# Matar/borrar todas las sesiones excepto mysession
+tmux kill-session -a -t mysession
+# Renombrar todas las sesiones
+Ctrl + b $
+# Desvincularse de la sesión
+Ctrl + b d
+# Mostrar todas las sesiones activas
+tmux ls
+Ctrl + b s
+# Sincronizarse a la última sesión
+tmux a
+tmux at
+tmux attach
+tmux attach-session
+# Sincronizarse a la sesion mysession
+tmux a -t mysession
+tmux attach-session -t mysession
+# Moverse a la sesión anterior
+Ctrl + b (
+Ctrl + b )
+# Activar el uso del mouse
+Ctrl + b m
+
+
+# Ventanas
+# Empezar una nueva sesión con nombre mysession y nombre de ventana mywindow
+tmux new -s mysession -n window
+# Crear una nueva ventana
+Ctrl + b c
+# Renombrar la ventana actual
+Ctrl + b ,
+# Cerrar la ventana actual
+Ctrl + b &
+# Ventana anterior
+Ctrl + b p
+# Ventana siguiente
+Ctrl + b n
+# Alternar/Seleccionar ventana por número
+Ctrl + b 0...9
+# Reordenar ventanas, intercambiar la ventana 2 (origen) por 1 (destino)
+swap-window -s 2 -t 1
+# Mover la ventana actual a la izquierda en una posición
+swap-window -t -1
+
+
+# Paneles
+# Conmutar el último panel activo
+Ctrl + b ;
+# Dividir el panel verticalmente
+Ctrl + b %
+# Dividir el panel horizontalmente
+Ctrl + b ''
+# Mueve el panel actual a la izquierda
+Ctrl + b {
+# Mueve el panel actual a la derecha
+Ctrl + b }
+# Intercambia el panel en la dirección indicada
+Ctrl + b up, down, left, rigth
+# Sincronizar paneles (enviar el comando indicado a todos los paneles)
+setw synchronize-panes
+# Alternar entre los diseños de los paneles
+Ctrl + b Spacebar
+# Cambiarse al siguiente panel
+Ctrl + b o
+# Mostrar los números de los paneles
+Ctrl + b q
+# Alternar/Seleccionar panel por número
+Ctrl + b q 0...9
+# Establecer zoom en el panel actual
+Ctrl + b z
+# Convierte el panel en una ventana
+Ctrl + b !
+# Redimensionar la altura del panel actual
+Ctrl + b + up, down
+# Redimensionar la anchura del panel actual
+Ctrl + b + -> <-
+# Cerrar el panel actual
+Ctrl + b x
+
+
+
+# MODO COPIA
+# Utilizar las teclas de vi en el buffer
+setw -g mode-keys vi
+# Entrar al modo copia
+Ctrl + b [
+# Desplazarse de una página hacia arriba
+Ctrl + b PgUp
+# Modo salida
+q
+# Ir a la línea superior
+g
+# Ir a la línea inferior
+G
+# Mover el cursor a la izquierda
+h
+# Mover el cursos a la derecha
+l
+# Mover el cursor abajo
+j
+# Mover el cursor arriba
+k
+# Mover el cursor hacia adelante una palabra a la vez
+w
+# Mover el cursor hacia atras una palabra a la vez
+b
+# Búsqueda hacia adelante
+/
+# Búsqueda hacia atras
+?
+# Siguiente palabra clave
+n
+# Ocurrencia de la palabra anterior
+N
+# Iniciar selección
+Spacebar
+# Limpiar selección
+Esc
+# Copiar selección
+Enter
+# Pegar contenido del buffer_0
+Ctrl + b ]
+# Mostrar contenido del buffer_0
+show-buffer
+# Copiar todo el contenido visible del panel a un buffer
+capture-pane
+# Mostrar todos los buffers
+list-buffers
+# Mostrar todos los buffers y pegar lo seleccionado
+choose-buffer
+# Guardar el contenido del buffer en buf.txt
+save-buffer buf.txt
+# Borrar buffer_1
+delete-buffer -b 1
+
+
+
+# VARIOS
+# Entrar en modo comandos
+Ctrl + b :
+# Establecer un OPTION para todas las sesiones
+set -g OPTION
+# Establecer un OPTION para todas las ventanas
+setw -g OPTION
+# Mostrar cada sesión, ventana, panel, etc.
+tmux info
+# Mostrar shortcuts
+Ctrl + b ?
+```
+
+### Búsquedas a nivel de sistema
+
+[Comandos Find y Locate en Linux](https://www.hostinger.es/tutoriales/como-usar-comando-find-locate-en-linux/)
+
+#### ¿Qué es find?
+
+Es una herramienta de línea de comandos que busca archivos y directorios en un árbol de directorios, aplicando criterios de búsqueda (nombre, tipo, permisos, propietario, fechas, tamaño, etc.) y permite ejecutar acciones sobre lo encontrado.
+
+Se diferencia de locate porque:
+
+* locate buscar en una base de datos indexada (más rápido, pero no en tiempo real).
+* find busca directamente en el sistema de archivos (más lento, pero exacto).
+
+#### Sintaxis básica
+
+```bash
+find [ruta_inicial] [criterios] [acciones]
+
+find /home -name "*.txt" # Busca todos los archivos .txt en /home
+```
+
+#### Criterios de búsqueda más comunes
+
+* Por nombre
+
+```bash
+find /etc -name "hosts"
+find /var/log -iname "*.log" # -iname ignora mayúsculas
+```
+
+* Por tipo
+
+```bash
+find / type f # Solo archivos
+find / type d # Solo directorios
+find / type l # Solo enlaces simbólicos
+```
+
+* Por usuario o grupo
+
+```bash
+find /home -user jose
+find /var -group www-data
+```
+
+* Por permisos
+
+```bash
+find / -perm 644 # Archivos con permisos 644 exactos
+find / -perm -4000 # Archivos con SUID
+find / -perm -2000 # Archivos con SGID
+```
+
+* Por fechas
+
+```bash
+find /home -mtime -1 # Modificados en el último día
+find /var/log -atime -7 # Leídos en los últimos 7 días
+find /etc -ctime -2 # Cuyo inode cambió en 2 días
+```
+
+* Por tamaños
+
+```bash
+find / -size +100M # Mayores de 100 MB
+find /var/log -size -50k # Menores de 50 KB
+```
+
+### Creación de scripts en bash
+
+Paleta con colores para usar en bash
+
+```bash
+#Colours
+greenColour="\e[0;32m\033[1m"
+endColour="\033[0m\e[0m"
+redColour="\e[0;31m\033[1m"
+blueColour="\e[0;34m\033[1m"
+yellowColour="\e[0;33m\033[1m"
+purpleColour="\e[0;35m\033[1m"
+turquoiseColour="\e[0;36m\033[1m"
+grayColour="\e[0;37m\033[1m"
+
+trap ctrl_c INT
+```
+
+* Script que me da la dirección IP
+
+```bash
+sudo su
+cd /home
+touch script.sh
+chmod +x script.sh
+nano script.sh
+#!/bin/bash
+echo -e "\n[+] Esta es tu dirección IP -> $(ip a | grep "inet " | tail -n 1 | awk '{print $2}' | awk '{print $1}' FS="/")\n" # Los comandos van dentro de $()
+
+echo -e "\n${yellowColour}[+]${endColour}${blueColour} Esta es tu dirección IP ->${endColour}${redColour}$(ip a | grep "inet " | tail -n 1 | awk '{print $2}' | awk '{print $1}' FS="/")\n${endColour}" # Los comandos van dentro de $()
+```
+
+---
+
 ### Utilerias
 
 * Instalar cat mejorado -> batcat
@@ -606,6 +1042,8 @@ getcap /usr/bin/python3.11
     * alias ls='lsd'
 * Personalizar la terminal -> PowerLevel10k
 * Recargar terminal -> source ~/.bashrc
+
+---
 
 ### Troubleshooting
 
