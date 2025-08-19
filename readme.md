@@ -1046,6 +1046,33 @@ font_size 15
 background_opacity 0.90
 ```
 
+* Funciones de Kitty
+
+```bash
+ctrl + left # Moverse entre paneles a la izquierda
+ctrl + right # Moverse entre paneles a la derecha
+ctrl + up # Moverse entre paneles hacia arriba
+ctrl + down # Moverse entre paneles hacia abajo
+ctrl + shift + enter # Abre un panel nuevo
+ctrl + shift + r # Redimensionar panel
+q # Para salir de redimensionado
+ctrl + shift + w # Para cerrar la ventana
+ctrl + shift + l # Para organizar las ventanas aleatoriamente
+ctrl + shift + . # Moverme entre ventanas hacia adelante
+ctrl + shift + , # Moverme entre ventanas hacia atras
+ctrl + shift + t # Crear nueva pestaña en la ventana
+ctrl + shift + n # Crea nueva ventana
+ctrl + shift + alt + t # Cambiar el nombre a las pestañas 
+ctrl + shift + izquierda # Regresar a la pestaña anterior
+ctrl + shift + derecha # avanzar a la pestaña siguiente
+```
+
+### Uso del editor VIM
+
+Configurar vim como lo tiene savitar, pero más adelante
+
+### Conexiones SSH | Inicia Bandit
+
 ---
 
 ### Utilerias
