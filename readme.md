@@ -1073,6 +1073,152 @@ Configurar vim como lo tiene savitar, pero más adelante
 
 ### Conexiones SSH | Inicia Bandit
 
+```bash
+#!/bin/bash
+
+# Bandit 0
+sshpass -p 'bandit0' ssh bandit0@bandit.labs.overthewire.org -p 2220
+export TERM=xterm
+cat readme | tail -n -2 | head -n -1 | awk '{print $8}'
+# Flag: ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
+
+
+
+# Bandit 1
+sshpass -p 'ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If' ssh bandit1@bandit.labs.overthewire.org -p 2220
+cat ./-
+# Flag: 263JGJPfgU6LtdEvgfWU1XP5yac29mFx
+
+
+
+# Bandit 2
+sshpass -p '263JGJPfgU6LtdEvgfWU1XP5yac29mFx' ssh bandit2@bandit.labs.overthewire.org -p 2220
+cat ./--spaces\ in\ this\ filename--
+# Flag: MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx
+
+
+
+# Bandit 3
+sshpass -p 'MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx' ssh bandit3@bandit.labs.overthewire.org -p 2220
+ls -la
+cd inhere/
+ls -la
+cat ./...Hiding-From-You
+# Flag: 2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
+
+
+
+# Bandit 4
+sshpass -p '2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ' ssh bandit4@bandit.labs.overthewire.org -p 2220
+cd inhere/
+find . -type f | grep "\-file" | xargs file
+find . -type f | grep "\-file" | xargs file | grep "text"
+cat ./-file07
+# Flag: 4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
+
+
+
+# Bandit 5
+sshpass -p '4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw' ssh bandit5@bandit.labs.overthewire.org -p 2220
+find . -type f ! -perm /111 -size 1033c | xargs file
+cat ./inhere/maybehere07/.file2 | head -n 1 | awk '{print $1}'
+# Flag: HWasnPhtq9AVKe0dmk45nxy20cvUa6EG
+
+
+
+# Bandit 6
+sshpass -p 'HWasnPhtq9AVKe0dmk45nxy20cvUa6EG' ssh bandit6@bandit.labs.overthewire.org -p 2220
+find / -user bandit7 -group bandit6 -size 33c 2>/dev/null | xargs file
+cat /var/lib/dpkg/info/bandit7.password
+# Flag: morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj
+
+
+
+# Bandit 7
+sshpass -p 'morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj' ssh bandit7@bandit.labs.overthewire.org -p 2220
+cat data.txt | grep "millionth" | awk '{print $2}'
+
+# Flag: dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc
+
+
+
+# Bandit 8
+sshpass -p 'dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc' ssh bandit8@bandit.labs.overthewire.org -p 2220
+cat data.txt | sort | uniq -u
+# Flag: 4CKMh1JI91bUIZZPXDqGanal4xvAg0JM
+
+
+
+# Bandit 9
+sshpass -p '4CKMh1JI91bUIZZPXDqGanal4xvAg0JM' ssh bandit9@bandit.labs.overthewire.org -p 2220
+cat data.txt | strings | grep "==========" | tail -n 1 | awk '{print $2}'
+# Flag: FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey
+
+
+
+# Bandit 10
+sshpass -p 'FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey' ssh bandit10@bandit.labs.overthewire.org -p 2220
+cat data.txt | base64 -d | awk '{print $4}'
+# Flag: dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr
+
+
+
+# Bandit 11
+sshpass -p 'dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr' ssh bandit11@bandit.labs.overthewire.org -p 2220
+cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m' | awk '{print $NF}'
+# Flag: 7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4
+
+
+
+# Bandit 12
+sshpass -p '7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4' ssh bandit12@bandit.labs.overthewire.org -p 2220
+cat data.txt
+cp data.txt > hexdump
+xxd -r hexdump > file
+7z l file | tail -n 3 | head -n 1 | awk 'NF {print $NF}'
+7z x file
+7z l data2.bin | tail -n 3 | head -n 1 | awk 'NF {print $NF}'
+7z x data2.bin
+# Flag: FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
+
+
+
+# Bandit
+sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
+
+# Flag:
+
+
+
+# Bandit
+sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
+
+# Flag:
+
+
+
+# Bandit
+sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
+
+# Flag:
+
+
+
+# Bandit
+sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
+
+# Flag:
+
+
+
+# Bandit
+sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
+
+# Flag:
+
+```
+
 ---
 
 ### Utilerias
