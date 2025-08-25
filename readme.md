@@ -1073,6 +1073,40 @@ Configurar vim como lo tiene savitar, pero más adelante
 
 ### Conexiones SSH | Inicia Bandit
 
+### Abusando de tareas Cron [1-3]
+
+Cron es un administrador de tareas de Linux que permite ejecutar comandos en un momento determinado, por ejemplo, cada minuto, día, semana o mes. Si queremos trabajar con cron, podemos hacerlo a través del comando **crontab**.
+
+El formato de configuración de cron es el siguiente: Minuto Hora Dia-del-Mes Mes Dia-de-la-semana Comando-a-ejecutar
+
+El intervalo de tiempo se especifica mediante 5 campos que representan, de izquierda a derecha:
+
+* Minutos: de 0 a 59.
+* Horas: de 0 a 23.
+* Día del mes: de 1 a 31.
+* Mes: de 1 a 12.
+* Día de la semana: de 1 a 6 lunes a sabado(1=lunes, 2=martes, etc) y 0 o 7 el domingo.
+
+Si quisieramos especificar todos los valores posibles de un parámetro (minutos, horas, etc) podemos hacer uso del asterisco. Esto implica que si en lugar de un número utilizamos un asterisco, el comando indicado se ejecutará cada minuto, hora, día de mes, mes o día de la semana, como en el siguiente ejemplo:
+
+```bash
+* * * * * /home/usr/script.sh
+```
+
+### Argumentos posicionales en Bash | Termina Bandit
+
+En Bash se pueden usar argumentos desde la línea de comandos, los cuales son enviados a los scripts como variables. Estos quedarían representados de la siguiente forma:
+
+[$0]: Representa el nombre del script que se invocó desde la terminal.
+
+[$1]: Es el primer argumento desde la línea de comandos.
+
+[$2]: Es el segundo argumento desde la línea de comandos y así sucesivamente.
+
+[$#]: Contiene el número de argumentos que son recibidos desde la línea de comandos.
+
+[$*]: Contiene todos los argumentos que son recibidos desde la línea de comandos, guardados todos en la misma variable.
+
 ```bash
 #!/bin/bash
 
@@ -1180,42 +1214,540 @@ xxd -r hexdump > file
 7z x file
 7z l data2.bin | tail -n 3 | head -n 1 | awk 'NF {print $NF}'
 7z x data2.bin
+
+# SCRIPT CREADO
+ #!/bin/bash
+ 
+ function ctrl_c(){
+     echo -e "\n\n[!] Saliendo...\n"
+ }
+ 
+ # Ctrl+C
+ trap ctrl_c INT
+ 
+ first_file_name="file"
+ decompressed_file_name="$(7z l file | tail -n 3 | head -n 1 | awk 'NF{print $NF}'
+ )"
+ 
+ 7z x $first_file_name &>/dev/null
+ 
+ while [ $decompressed_file_name ]; do
+     echo -e "\n[+] Nuevo archivo descomprimido: $decompressed_file_name"
+     7z x $decompressed_file_name &>/dev/null
+     decompressed_file_name="$(7z l $decompressed_file_name 2>/dev/null | tail -n 
+ 3 | head -n 1 | awk 'NF{print $NF}')"
+ done
+
 # Flag: FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
 
 
 
-# Bandit
-sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
+# Bandit 13
+sshpass -p 'FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn' ssh bandit13@bandit.labs.overthewire.org -p 2220
+# Savitar nos dice que con ssh-keygen podemos crearnos una clave publica y una privada
+# Savitar da enter, se crea bajo el directorio ~/.ssh dos archivos, clave publica: id_rsa.pub y clave privada: id_rsa
 
-# Flag:
-
-
-
-# Bandit
-sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
-
-# Flag:
+# Dicho de otra manera el comando siguiente: me voy a conectar con la clave como el usuario bandit14 al equipo localhost en el puerto 2220
+ssh -i sshkey.private bandit14@localhost -p 2220
+cat /etc/bandit_pass/bandit14 
+# Flag: MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS
 
 
-
-# Bandit
-sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
-
-# Flag:
+# Bandit 14
+sshpass -p 'MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS' ssh bandit14@bandit.labs.overthewire.org -p 2220
+nc localhost 30000
+MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS
+# Flag: 8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
 
 
 
-# Bandit
-sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
+# Bandit 15
+sshpass -p '8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo' ssh bandit15@bandit.labs.overthewire.org -p 2220
+ncat --ssl localhost 30001
+8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+Correct!
+kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
 
-# Flag:
+# Flag: kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
 
 
 
-# Bandit
-sshpass -p '' ssh bandit@bandit.labs.overthewire.org -p 2220
+# Bandit 16
+sshpass -p 'kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx' ssh bandit16@bandit.labs.overthewire.org -p 2220
+cd /tmp/
+mktemp -d
+/tmp/tmp.zfTzWLlxAP # Nos crea un directorio temporal de trabajo
+cd /tmp/tmp.zfTzWLlxAP
+touch portScan.sh
+chmod +x portScan.sh
+nano portScan.sh
+# Inicio script
+#/bin/bash
 
-# Flag:
+function ctrl_c(){
+        echo -e "\n\n[!] Saliendo...\n"
+        exit 1
+}
+
+
+# Ctrl+C
+trap ctrl_c INT
+
+for port in $(seq 31000 32000); do
+        (echo ' ' > /dev/tcp/127.0.0.1/$port) 2>/dev/null && echo "[+] $port - OPEN" &
+done;wait
+# Fin script
+
+./portScan.sh
+[+] 31046 - OPEN
+[+] 31518 - OPEN
+[+] 31691 - OPEN
+[+] 31790 - OPEN
+[+] 31960 - OPEN
+
+nmap -sV -p31000-32000 localhost
+
+PORT      STATE SERVICE     VERSION
+31046/tcp open  echo
+31518/tcp open  ssl/echo
+31691/tcp open  echo
+31790/tcp open  ssl/unknown
+31960/tcp open  echo
+
+ncat --sl localhost 31790
+
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
+Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu
+DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW
+JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX
+x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD
+KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl
+J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd
+d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC
+YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A
+vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama
++TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT
+8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx
+SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd
+HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt
+SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A
+R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi
+Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg
+R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu
+L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni
+blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU
+YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
+77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b
+dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
+vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
+-----END RSA PRIVATE KEY-----
+
+cd /directorio_temporal
+touch id_rsa # Pegamos la clave
+chmod 600 id_rsa
+ssh -i id_rsa bandit17@localhots -p 2220
+
+# Flag: EReVavePLFHtFlFsjn3hyzMlvSuSAcRD
+
+
+
+# Bandit 17
+sshpass -p 'EReVavePLFHtFlFsjn3hyzMlvSuSAcRD' ssh bandit17@bandit.labs.overthewire.org -p 2220
+
+# El comando diff nos muestra la diferencia entre dos archivos, siendo el primero la linea que se suplanta y la segunda la linea que se ingresa
+diff passwords.old passwords.new
+
+42c42
+< CgmS55GVlEKTgx8xpW8HuWnHlBKP924b
+---
+> x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+
+# Flag: x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+
+
+
+# Bandit 18
+sshpass -p 'x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO' ssh bandit18@bandit.labs.overthewire.org -p 2220 bash
+cat readme
+
+# Flag: cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8
+
+
+
+# Bandit 19
+sshpass -p 'cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8' ssh bandit19@bandit.labs.overthewire.org -p 2220
+
+./bandit20-do cat /etc/bandit_pass/bandit20
+
+# Flag: 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO
+
+
+
+# Bandit 20
+sshpass -p '0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO' ssh bandit20@bandit.labs.overthewire.org -p 2220
+
+# Se abren dos terminales con las credenciales anteriores, en la primera nos ponemos en escucha con el siguiente comando
+nc -nlvp <port> # 4646 en el ejemplo de savitar
+
+# En la segunda terminal ejecutamos el script ./suconnect
+./suconnect 4646
+
+# En la primer ventana escribimos la contraseña del usuario 20
+0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO
+
+# Nos devuelve contraseña de bandit21
+
+# Flag: EeoULMCra2q0dSkYj561DX7s1CpBuOBt
+
+
+
+# Bandit 21
+sshpass -p 'EeoULMCra2q0dSkYj561DX7s1CpBuOBt' ssh bandit21@bandit.labs.overthewire.org -p 2220
+export TERM=xterm
+ls -la /etc/cron.d/
+drwxr-xr-x   2 root root  4096 Aug 15 13:19 .
+drwxr-xr-x 128 root root 12288 Aug 15 13:19 ..
+-r--r-----   1 root root    47 Aug 15 13:16 behemoth4_cleanup
+-rw-r--r--   1 root root   123 Aug 15 13:09 clean_tmp
+-rw-r--r--   1 root root   120 Aug 15 13:16 cronjob_bandit22
+-rw-r--r--   1 root root   122 Aug 15 13:16 cronjob_bandit23
+-rw-r--r--   1 root root   120 Aug 15 13:16 cronjob_bandit24
+-rw-r--r--   1 root root   201 Apr  8  2024 e2scrub_all
+-r--r-----   1 root root    48 Aug 15 13:17 leviathan5_cleanup
+-rw-------   1 root root   138 Aug 15 13:17 manpage3_resetpw_job
+-rwx------   1 root root    52 Aug 15 13:19 otw-tmp-dir
+-rw-r--r--   1 root root   102 Mar 31  2024 .placeholder
+-rw-r--r--   1 root root   396 Jan  9  2024 sysstat
+
+cat /etc/cron.d/cronjob_bandit22
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+
+
+cat /usr/bin/cronjob_bandit22.sh
+
+#!/bin/bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q
+
+# Flag: tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q
+
+
+
+# Bandit 22
+sshpass -p 'tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q' ssh bandit22@bandit.labs.overthewire.org -p 2220
+
+ls -la /etc/cron.d
+
+-rw-r--r--   1 root root   122 Aug 15 13:16 cronjob_bandit23
+
+cat /etc/cron.d/cronjob_bandit23
+
+cat /usr/bin/cronjob_bandit23.sh
+
+# Inicio de script
+#!/bin/bash
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+# FIn de script
+
+echo "I am user bandit23" | md5sum | cut -d ' ' -f 1
+8ca319486bfbbc3663ea0fbe81326349
+
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+
+0Zf11ioIjMVN551jX3CmStKLYqjk54Ga
+
+# Flag: 0Zf11ioIjMVN551jX3CmStKLYqjk54Ga
+
+
+
+# Bandit 23
+sshpass -p '0Zf11ioIjMVN551jX3CmStKLYqjk54Ga' ssh bandit23@bandit.labs.overthewire.org -p 2220
+
+export TERM=xterm
+ls -la /etc/cron.d | grep "bandit24"
+-rw-r--r--   1 root root   120 Aug 15 13:16 cronjob_bandit24
+cat /etc/cron.d/cronjob_bandit24
+
+@reboot bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+
+cat /usr/bin/cronjob_bandit24.sh
+
+#Inicio script
+#!/bin/bash
+
+myname=$(whoami)
+
+cd /var/spool/$myname/foo
+echo "Executing and deleting all scripts in /var/spool/$myname/foo:"
+for i in * .*;
+do
+    if [ "$i" != "." -a "$i" != ".." ];
+    then
+        echo "Handling $i"
+        owner="$(stat --format "%U" ./$i)"
+        if [ "${owner}" = "bandit23" ]; then
+            timeout -s 9 60 ./$i
+        fi
+        rm -f ./$i
+    fi
+done
+#Fin script
+
+mktemp -d
+/tmp/tmp.eMtmAz5fCN
+cd /tmp/tmp.eMtmAz5fCN
+touch auto.sh
+chmod +x auto.sh
+chmod 777 /tmp/tmp.eMtmAz5fCN
+nano auto.sh
+
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 > passwd
+cp passwd /tmp/tmp.1V03fbIWtJ
+
+cp auto.sh /var/spool/bandit24/foo
+
+# Esperamos un minuto
+ls /tmp/tmp.1V03fbIWtJ
+auto.sh  passwd
+cat passwd
+gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8
+
+# Flag: gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8
+
+
+
+# Bandit 24
+sshpass -p 'gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8' ssh bandit24@bandit.labs.overthewire.org -p 2220
+
+mktemp -d
+cd /tmp/tmp.1234/
+
+for pin in {0000..9999}; do echo gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8 $pin; done > combinations.txt
+
+cat combinations.txt | nc localhost 30002 | grep -v "Wrong"
+
+Correct!
+The password of user bandit25 is iCi86ttT4KSNe1armKiwbQNmB3YJP3q4
+
+# Flag: iCi86ttT4KSNe1armKiwbQNmB3YJP3q4
+
+
+
+# Bandit 25
+sshpass -p 'iCi86ttT4KSNe1armKiwbQNmB3YJP3q4' ssh bandit25@bandit.labs.overthewire.org -p 2220
+# Hacer pequeña la pantalla en la que estamos operando
+ssh -i bandit26.sshkey bandit26@localhost -p 2220
+
+# En el modo more, presionar la letra v
+# Presionamos esc
+# Presionamos shift+:
+:set shell=/bin/bash
+# presionamos nuevamente shift+:
+:shell # Esto nos da una shell, cuando entremos a more presionar q
+ls
+cat /etc/bandit_pass/bandit26
+s0773xxkk0MXfdqOfPRVr9L3jJBUOgCZ
+# Flag: s0773xxkk0MXfdqOfPRVr9L3jJBUOgCZ
+
+
+
+# Bandit 26
+sshpass -p 's0773xxkk0MXfdqOfPRVr9L3jJBUOgCZ' ssh bandit26@bandit.labs.overthewire.org -p 2220
+
+./bandit27-do cat /etc/bandit_pass/bandit27
+upsNCc7vzaRDx6oZC6GiR6ERwe1MowGB
+
+# Flag: upsNCc7vzaRDx6oZC6GiR6ERwe1MowGB
+
+
+
+# Bandit 27
+sshpass -p 'upsNCc7vzaRDx6oZC6GiR6ERwe1MowGB' ssh bandit27@bandit.labs.overthewire.org -p 2220
+
+mktemp -d
+cd temporal
+git clone ssh://bandit27-git@localhost:2220/home/bandit27-git/repo
+yes
+upsNCc7vzaRDx6oZC6GiR6ERwe1MowGB
+cd repo
+The password to the next level is: Yz9IpL0sBcCeuG7m9uQFt8ZNpS4HZRcN
+
+# Flag: Yz9IpL0sBcCeuG7m9uQFt8ZNpS4HZRcN
+
+
+
+# Bandit 28
+sshpass -p 'Yz9IpL0sBcCeuG7m9uQFt8ZNpS4HZRcN' ssh bandit28@bandit.labs.overthewire.org -p 2220
+
+mktemp -d
+cd temp
+
+git clone ssh://bandit28-git@localhost:2220/home/bandit28-git/repo
+
+git log
+
+# Ver por actualizacion con parches de seguridad
+git show 710c14a2e43cfd97041924403e00efb00b3a956e
+
+
+commit 710c14a2e43cfd97041924403e00efb00b3a956e (HEAD -> master, origin/master, origin/HEAD)
+Author: Morla Porla <morla@overthewire.org>
+Date:   Fri Aug 15 13:16:10 2025 +0000
+
+    fix info leak
+
+diff --git a/README.md b/README.md
+index d4e3b74..5c6457b 100644
+--- a/README.md
++++ b/README.md
+@@ -4,5 +4,5 @@ Some notes for level29 of bandit.
+ ## credentials
+ 
+ - username: bandit29
+-- password: 4pT1t5DENaYuqnqvadYs1oE4QLCdjmJ7
++- password: xxxxxxxxxx
+
+# Flag: 4pT1t5DENaYuqnqvadYs1oE4QLCdjmJ7
+
+
+
+
+# Bandit 29
+sshpass -p '4pT1t5DENaYuqnqvadYs1oE4QLCdjmJ7' ssh bandit29@bandit.labs.overthewire.org -p 2220
+
+git clone ssh://bandit29-git@localhost:2220/home/bandit29-git/repo
+
+git branch -a
+
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/dev
+  remotes/origin/master
+  remotes/origin/sploits-dev
+
+
+git checkout dev
+
+branch 'dev' set up to track 'origin/dev'.
+Switched to a new branch 'dev'
+
+ls
+cat README.md
+
+# Bandit Notes
+Some notes for bandit30 of bandit.
+
+## credentials
+
+- username: bandit30
+- password: qp30ex3VLz5MDG1n91YowTv4Q8l7CDZL
+
+# Flag: qp30ex3VLz5MDG1n91YowTv4Q8l7CDZL
+
+
+
+# Bandit 30
+sshpass -p 'qp30ex3VLz5MDG1n91YowTv4Q8l7CDZL' ssh bandit30@bandit.labs.overthewire.org -p 2220
+
+
+mktemp -d
+cd temp
+git clone ssh://bandit30-git@localhost:2220/home/bandit30-git/repo
+
+git tag
+secret
+
+git show secret
+fb5S2xb7bRyFmAvQYQGEqsbhVyJqhnDy
+
+# Flag: fb5S2xb7bRyFmAvQYQGEqsbhVyJqhnDy
+
+
+
+# Bandit 31
+sshpass -p 'fb5S2xb7bRyFmAvQYQGEqsbhVyJqhnDy' ssh bandit31@bandit.labs.overthewire.org -p 2220
+
+mktemp -d
+cd temp
+
+git clone ssh://bandit31-git@localhost:2220/home/bandit31-git/repo
+cat README.md
+
+This time your task is to push a file to the remote repository.
+
+Details:
+    File name: key.txt
+    Content: 'May I come in?'
+    Branch: master
+
+bandit31@bandit:/tmp/tmp.nJzBFKuLtV/repo$ echo "May I come in?" > key.txt
+
+bandit31@bandit:/tmp/tmp.nJzBFKuLtV/repo$ git add -f key.txt 
+bandit31@bandit:/tmp/tmp.nJzBFKuLtV/repo$ git commit -m "Creamos un nuevo archivo"
+[master d65bc48] Creamos un nuevo archivo
+ 1 file changed, 1 insertion(+)
+ create mode 100644 key.txt
+
+bandit31@bandit:/tmp/tmp.nJzBFKuLtV/repo$ git push -u origin master
+
+bandit31-git@localhost's password: 
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 333 bytes | 333.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+remote: ### Attempting to validate files... ####
+remote: 
+remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+remote: 
+remote: Well done! Here is the password for the next level:
+remote: 3O9RfhqyAlVBEZpVb6LYStshZoqoSx5K 
+remote: 
+remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+remote: 
+To ssh://localhost:2220/home/bandit31-git/repo
+ ! [remote rejected] master -> master (pre-receive hook declined)
+error: failed to push some refs to 'ssh://localhost:2220/home/bandit31-git/repo
+
+
+# Flag: 3O9RfhqyAlVBEZpVb6LYStshZoqoSx5K
+
+
+
+# Bandit 32
+
+# Volvemos al nivel anterior solo para ver la shell de este nivel
+
+cat /etc/passwd | grep "bandit32"
+bandit32:x:11032:11032:bandit level 32:/home/bandit32:/home/bandit32/uppershell
+
+sshpass -p '3O9RfhqyAlVBEZpVb6LYStshZoqoSx5K' ssh bandit32@bandit.labs.overthewire.org -p 2220
+
+$0
+
+cd /home/bandit33
+ls
+cat README.txt
+
+Congratulations on solving the last level of this game!
+
+At this moment, there are no more levels to play in this game. However, we are constantly working
+on new levels and will most likely expand this game with more levels soon.
+Keep an eye out for an announcement on our usual communication channels!
+In the meantime, you could play some of our other wargames.
+
+If you have an idea for an awesome new level, please let us know!
 
 ```
 
