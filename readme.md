@@ -1751,6 +1751,106 @@ If you have an idea for an awesome new level, please let us know!
 
 ```
 
+## Proyectos de scripting en Bash
+
+```bash
+
+```
+
+## Repaso personal de todo lo aprendido con Savitar ñ.ñ
+
+Comandos
+
+```bash
+apt update # Para actualizar paquetes
+apt list --upgradable # Lista paquetes que pueden actualizarse
+parrot-upgrade # Para actualizar el S.O. Parrot
+pwd # Nos muestra el directorio de trabajo
+alias cat='batcat' # Nos cambia un comando por un alias que nosotros definamos, podemos definirlos tambien en archivo de configuracion de shell, bash=~/.bashrc, zsh=~/.zshrc
+# --- Directorios
+cd # Lo usamos para cambiar de directorios
+cd ~ # Para regresar al directorio HOME del usuario /home/usuario
+cd .. # Lo usamos para regresar al HOME /home
+cd - # Lo usamos para movernos al directorio en el que estabamos
+# --- Listar 
+ls # Para enumerar todos los archivos y directorios visibles
+ls -a # Para listar archivos y directorios, incluido los ocultos
+ls -l # Forma de lista larga
+ls -lh # Legible por humanos
+ls -r # Lista en orden inverso
+ls -S # Lista por tamaño
+ls -t # Lista por tiempo de modificacion
+# --- Busqueda
+which cat # Nos devuelve la ruta del programa binario cat
+whereis # Busca el manual binario, fuente y de usuario de un programa
+find / -type -f -iname "*kitty*" # Busca desde la raiz un archivo ya sea en mayusculas o minusculas que incluya la palabra kitty.
+!! # Para repetir el comando anterio ejecutado
+touch nombreDeArchivo # Crea un archivo
+cp /rutaOrigen /rutaDestino # Copiamos un archivo de un lugar a otro
+mkdir nombreDelDirectorio # Creamos un directorio
+rmdir nombreDelDirectorio # Borramos un directorio vacio
+rm nombreDelArchivo # Borramos un archivo
+rm -rf # Eliminamos un directorio de forma recursiva(usar con precaucion)
+cat archivo # Vemos el interior de un archivo
+cat -n archivo # Vemos el archivo con numeros de linea
+cat archivo > /ruta/archivo # Copiamos la salida del archivo a una ruta
+command -v which # Alternativa a which
+echo $HOME # Muestra el directorio HOME del usuario
+echo $PATH # Muestra las variables de entorno del usuario
+echo $SHELL # Muestra el tipo de shell que usa el usuario
+echo $? # Nos devuelve el codigo de estado del comando anterior ejecutado
+whoami; ls # Ejecuta el primer comando y luego el segundo
+whoami && ls # AND, se ejecuta el segundo comando solo si el primero devuelve un codigo de estado exitoso
+whoami || ls # OR, En caso de que el primer comando no sea correcto ejecutará el segundo comando
+wireshark & # El amperson hasta el final indica que deseo abrir cualquier aplicacion en segundo plano, me habilita un PID, pero sigo dependiendo de la terminal activa, ya que es un proceso hijo de esa instancia de terminal.
+wireshark & disown # Lo mismo que el anterior solo que aquí ya no depende de la terminal
+# --- CONTROL DE FLUJO STDERR STDOUT
+error 2>/dev/null # Si el comando error tiene alguna salida con errores, esa salida redirigela al /dev/null
+# Forma rara de usar el stdout
+cat /etc/hosts > /dev/null # Todo la salida stdout y stderr se va al /dev/null sea correcto o no
+cat /etc/host > /dev/null # Esto nos muestra el stderr
+cat /etc/host > /dev/null 2>&1 # Convertimos el stderr en stdout y lo mandamos al dev/null
+# Forma más comoda de usar el stdout hacia stderr
+cat /etc/host &> /dev/null # De esta forma tanto el stderr como el stdout no se muestra en pantalla
+wireshark # Lanza programa con interfaz grafica en primer plano y la CLI en segundo plano mandando stdout
+wireshark &> /dev/null # Lanza la herramienta sin reportar nada por CLI
+remmina &>/dev/null & disown # Lanza remmina sin reportar nada por CLI en segundo plano sin que dependa de la terminal, crea un PID
+chmod # Cambiar permisos de archivos y directorios, u,g,o, user, group, others. r,w,x.
+chmod u+s /ruta/archivo # Damos permiso SUID
+chmod g+s /carpetaCompartida # Damos permiso a carpeta compartida con permiso SGID
+chmod o+t /tmp # Damos permiso de sticky a carpeta temporal
+chgrp valor1 valor2 # valor1=grupo valor2=directorio, asigno al grupo valor1 el directorio valor2
+useradd gerardo -s /bin/bash -d /home/gerardo # Creamos el usuario Gerardo, le asignamos como shell una bash y le asignamos su directorio home de trabajo
+chown # valor1=propietario valor2=directorio, asigno a valor1 el directorio valor2
+chown propietario:grupo directorio # Para cambiar permisos en una linea
+passwd gerardo # Nos pedirá escribir la contraseña del usuario gerardo
+groupadd nombreGrupo # Creamos el grupo nombreGrupo
+usermod -a -G valor1 valor2 # Añadimos al usuario valor2 al grupo valor1
+sudo gpasswd -d valor1 valor2 # Eliminamos al usuario valor1 del grupo valor2
+sudo usermod -G valor1 valor2 # Eliminamos el usuario valor2 del grupo valor1
+userdel -f # Esta opcion fuerza la eliminacion de la cuenta
+sudo userdel -r valor1 # Eliminamos al usuario valor1 del sistema, borra directorio home de usuario, todo con respecto al usuario.
+find / -type -f -perm -4000 2> /dev/null # Busca archivos con privilegios SUID y mandamos el error al dev null
+find / -type -f -perm -2000 2> /dev/null # Busca archivos con privilegios SGID y mandamos el error al dev null
+
+```
+
+Atajos
+
+```bash
+ctrl + l # Limpiamos terminal
+```
+
+Rutas interesantes
+
+```bash
+cat /etc/passwd # Archivo donde estan los directorios personales de usuarios
+cat /etc/shells # Muestra las shells existentes en el equipo
+cat /etc/hosts # Nos muestra direcciones IP
+cat /etc/shadow # Tiene las contraseñas encriptadas
+cat /etc/login.defs | grep "ENCRYPT_METHOD"
+```
+
 ---
 
 ### Utilerias
